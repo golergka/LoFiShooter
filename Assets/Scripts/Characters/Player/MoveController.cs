@@ -32,7 +32,7 @@ public class MoveController : MonoBehaviour {
 
 		motion *= speed;
 
-		characterController.SimpleMove(motion);
+		characterController.Move(motion * Time.deltaTime);
 	
 	}
 }
