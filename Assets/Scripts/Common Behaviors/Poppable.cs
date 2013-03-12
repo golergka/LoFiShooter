@@ -15,8 +15,6 @@ public class Poppable : MonoBehaviour {
 
 		}
 
-		Debug.Log("Destroy!");
-
 		Destroy(this.gameObject);
 
 	}

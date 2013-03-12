@@ -7,6 +7,11 @@ public class Health : MonoBehaviour {
 
 	public int maxHealthPoints = 100;
 
+	public bool showHUD = true;
+
+	[HideInInspector]
+	public HealthHUD hud;
+
 	// Use this for initialization
 	void Start () {
 
