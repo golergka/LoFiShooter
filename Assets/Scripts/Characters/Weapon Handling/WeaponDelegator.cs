@@ -11,9 +11,7 @@ public abstract class WeaponDelegate : MonoBehaviour {
 
 public class WeaponDelegator : MonoBehaviour {
 
-	WeaponDelegate weaponDelegate;
-
-	const string BUTTON_FIRE = "Fire1";
+	protected WeaponDelegate weaponDelegate;
 
 	public Transform weaponMount;
 
@@ -40,17 +38,4 @@ public class WeaponDelegator : MonoBehaviour {
 
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-		if (weaponDelegate == null)
-			return;
-
-		if (Input.GetButtonDown(BUTTON_FIRE))
-			weaponDelegate.Fire();
-
-		if (Input.GetButton(BUTTON_FIRE))
-			weaponDelegate.FireContinuous();
-	
-	}
 }

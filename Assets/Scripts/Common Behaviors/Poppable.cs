@@ -5,9 +5,9 @@ public class Poppable : MonoBehaviour {
 
 	public int damage;
 
-	void OnCollisionEnter(Collision collision) {
+	void OnTriggerEnter(Collider other) {
 
-		Health health = collision.gameObject.GetComponent<Health>();
+		Health health = other.GetComponent<Health>();
 
 		if (health) {
 

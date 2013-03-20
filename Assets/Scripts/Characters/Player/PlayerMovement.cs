@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveController : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
 
 	const string AXIS_HORIZONTAL = "Horizontal";
 	const string AXIS_VERTICAL   = "Vertical";
