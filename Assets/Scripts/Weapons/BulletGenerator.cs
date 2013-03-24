@@ -39,6 +39,8 @@ public class BulletGenerator : WeaponDelegate {
 
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
 
+			lastFireTime = Time.time;
+
 			Instantiate(bullet, muzzle.position, muzzle.rotation);
 
 		}
