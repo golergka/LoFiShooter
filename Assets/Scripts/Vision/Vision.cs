@@ -31,6 +31,7 @@ public class Vision : MonoBehaviour {
 	// Vision distance. We keep square distnace to optimize length checks
 	private float sqrVisionDistance = 100f;
 	private float _visionDistance = 10f;
+	public float visionDistanceEditor;
 	public float visionDistance {
 
 		get { return _visionDistance; }
@@ -42,6 +43,7 @@ public class Vision : MonoBehaviour {
 			else {
 				_visionDistance = value;
 				sqrVisionDistance = value*value;
+				visionDistanceEditor = visionDistance;
 			}
 		}
 
@@ -51,6 +53,8 @@ public class Vision : MonoBehaviour {
 
 	void Start() {
 
+		Debug.Log("Vision distance editor: " + visionDistanceEditor);
+		visionDistance = visionDistanceEditor;
 		visionListeners = GetComponents(typeof(IVisionListener));
 
 	}
@@ -267,7 +271,7 @@ public class Vision : MonoBehaviour {
 	void OnDrawGizmosSelected() {
 
 		Gizmos.color = Color.blue;
-		Gizmos.DrawWireSphere(transform.position, visionDistance);
+		Gizmos.DrawWireSphere(transform.position, visionDistanceEditor);
 
 		Gizmos.color = Color.red;
 		foreach(Visible visible in invisiblesInSight)
