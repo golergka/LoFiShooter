@@ -7,8 +7,6 @@ public class BulletGenerator : WeaponDelegate {
 
 	public Transform bullet;
 
-	public float firePeriod = 1f;
-
 	void Awake() {
 
 		if (!muzzle) {
@@ -27,23 +25,9 @@ public class BulletGenerator : WeaponDelegate {
 
 	}
 
-	public override void Fire() {
+	protected override void Shoot() {
 
-		// Not using it
-
-	}
-
-	float lastFireTime = -1;
-
-	public override void FireContinuous() {
-
-		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
-
-			lastFireTime = Time.time;
-
-			Instantiate(bullet, muzzle.position, muzzle.rotation);
-
-		}
+		Instantiate(bullet, muzzle.position, muzzle.rotation);
 
 	}
 

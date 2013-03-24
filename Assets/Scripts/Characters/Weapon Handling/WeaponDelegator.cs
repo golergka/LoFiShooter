@@ -20,19 +20,15 @@ public class WeaponDelegator : MonoBehaviour {
 
 	public void Fire() {
 
-		weaponDelegate.Fire();
+		if (weaponDelegate)
+			weaponDelegate.Fire();
 
-	}
-
-	public void FireContinuous() {
-
-		weaponDelegate.FireContinuous();
-		
 	}
 
 	public void SwitchWeapon(WeaponDelegate weaponDelegatePrefab) {
 
-		Destroy(weaponDelegate);
+		if (weaponDelegate)
+			Destroy(weaponDelegate.gameObject);
 
 		if (weaponDelegatePrefab == null)
 			return;
