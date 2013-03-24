@@ -1,14 +1,6 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class WeaponDelegate : MonoBehaviour {
-
-	public abstract void Fire();
-
-	public abstract void FireContinuous();
-
-}
-
 public class WeaponDelegator : MonoBehaviour {
 
 	protected WeaponDelegate weaponDelegate;
@@ -28,19 +20,15 @@ public class WeaponDelegator : MonoBehaviour {
 
 	public void Fire() {
 
-		weaponDelegate.Fire();
+		if (weaponDelegate)
+			weaponDelegate.Fire();
 
-	}
-
-	public void FireContinuous() {
-
-		weaponDelegate.FireContinuous();
-		
 	}
 
 	public void SwitchWeapon(WeaponDelegate weaponDelegatePrefab) {
 
-		Destroy(weaponDelegate);
+		if (weaponDelegate)
+			Destroy(weaponDelegate.gameObject);
 
 		if (weaponDelegatePrefab == null)
 			return;

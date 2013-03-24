@@ -79,7 +79,7 @@ public class EnemyController : MonoBehaviour, IVisionListener {
 
 		if ( (target.position - transform.position).magnitude < attackRange ) {
 
-			weaponDelegator.FireContinuous();
+			weaponDelegator.Fire();
 		}
 
 	}
