@@ -53,7 +53,6 @@ public class Vision : MonoBehaviour {
 
 	void Start() {
 
-		Debug.Log("Vision distance editor: " + visionDistanceEditor);
 		visionDistance = visionDistanceEditor;
 		visionListeners = GetComponents(typeof(IVisionListener));
 
