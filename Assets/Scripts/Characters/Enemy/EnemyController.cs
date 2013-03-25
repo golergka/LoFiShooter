@@ -29,13 +29,6 @@ public class EnemyController : MonoBehaviour, IVisionListener {
 
 		}
 
-		if (!weaponDelegator) {
-
-			Debug.LogWarning("Please add weaponDelegator!");
-			enabled = false;
-
-		}
-
 	}
 
 	const string TAG_PLAYER = "Player";
@@ -77,7 +70,7 @@ public class EnemyController : MonoBehaviour, IVisionListener {
 		lookTarget.y = transform.position.y;
 		transform.LookAt(lookTarget);
 
-		if ( (target.position - transform.position).magnitude < attackRange ) {
+		if ( weaponDelegator && (target.position - transform.position).magnitude < attackRange ) {
 
 			weaponDelegator.Fire();
 		}

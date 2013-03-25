@@ -41,4 +41,17 @@ public class Health : MonoBehaviour {
 
 	}
 
+	public void InflictHealing(int healingAmount) {
+
+		if ( healingAmount == 0 ) {
+
+			Debug.LogWarning("Received 0 healing!");
+			return;
+
+		}
+
+		healthPoints = Mathf.Min( healthPoints + healingAmount, maxHealthPoints );
+
+	}
+
 }
