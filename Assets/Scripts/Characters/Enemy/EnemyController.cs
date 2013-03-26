@@ -7,12 +7,12 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	Vision vision;
 	
 	[ComponentField]
-	CharacterController characterController;
+	MovementController movementController;
 
 	[ComponentField]
 	WeaponDelegator weaponDelegator;
 
-	const string TAG_PLAYER = "Player";
+	const string TAG_PLAYER = "Player"; // TODO: Create separate static class with all game-level constants
 
 	enum EnemyState {
 		Idle,
@@ -34,22 +34,9 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 	void Engage() {
 
-		Vector3 motion = target.position - transform.position;
-		motion.y = 0; // we move on horizontal plane;
-		
-		// This code duplicates PlayerMovement.cs
-		// TODO: research refactoring probability without being insane architecture astronaut
-
-		motion.Normalize();
-		motion *= speed;
-		characterController.Move(motion * Time.deltaTime);
-
-		// And this as MouseRotation.cs
-		// TODO: same
-
-		Vector3 lookTarget = target.position;
-		lookTarget.y = transform.position.y;
-		transform.LookAt(lookTarget);
+		movementController.speed = speed;
+		movementController.Move( target.position - transform.position );
+		movementController.LookAt( target.position );
 
 		if ( weaponDelegator && (target.position - transform.position).magnitude < attackRange ) {
 
