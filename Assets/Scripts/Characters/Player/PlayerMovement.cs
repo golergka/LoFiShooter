@@ -7,7 +7,7 @@ public class PlayerMovement : BasicBehavior {
 	const string AXIS_VERTICAL   = "Vertical";
 
 	[ComponentField]
-	CharacterController characterController;
+	MovementController movementController;
 
 	public float speed = 1f;
 	
@@ -19,11 +19,20 @@ public class PlayerMovement : BasicBehavior {
 		motion.x = Input.GetAxis(AXIS_HORIZONTAL);
 		motion.z = Input.GetAxis(AXIS_VERTICAL);
 
-		motion.Normalize();
+		movementController.speed = speed;
+		movementController.Move(motion);
 
-		motion *= speed;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		
+		if (Physics.Raycast(ray, out hit)) {
+			
+			Vector3 lookTarget = hit.point;
+			lookTarget.y = transform.position.y;
 
-		characterController.Move(motion * Time.deltaTime);
+			movementController.LookAt(lookTarget);
+			
+		}
 	
 	}
 }
