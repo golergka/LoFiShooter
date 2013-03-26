@@ -68,6 +68,8 @@ public class MovementController : BasicBehavior {
 
 		Vector3 acceleration = (targetVelocity - rigidbody.velocity) / Time.deltaTime;
 
+		acceleration.y = 0;
+
 		Debug.DrawLine(transform.position, transform.position + rigidbody.velocity, Color.green, 0f, false);
 		Debug.DrawLine(transform.position, transform.position + targetVelocity, Color.blue, 0f, false);
 		Debug.DrawLine(transform.position + rigidbody.velocity, transform.position + targetVelocity, Color.red, 0f, false);
