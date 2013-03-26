@@ -12,7 +12,7 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	[ComponentField]
 	WeaponDelegator weaponDelegator;
 
-	const string TAG_PLAYER = "Player";
+	const string TAG_PLAYER = "Player"; // TODO: Create separate static class with all game-level constants
 
 	enum EnemyState {
 		Idle,
