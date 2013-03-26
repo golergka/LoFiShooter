@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : BasicBehavior {
 
 	public float snapDistance;
 	public float smoothSpeed;
@@ -11,23 +11,18 @@ public class CameraController : MonoBehaviour {
 	
 	Vector3 cameraOffset;
 	
+	[SetupableField]
 	public Transform target;
 	
 	private float lastSnapTime = 0f;
 	
 	public static CameraController instance;
 	
-	void Awake() {
+	protected override void Awake() {
+
+		base.Awake();
 		
 		instance = this;
-
-		if (!target) {
-
-			Debug.LogWarning("Setup target for camera!");
-			enabled = false;
-			return;
-
-		}
 
 		cameraOffset = transform.position - target.position;
 		

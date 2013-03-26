@@ -31,11 +31,11 @@ public abstract class BasicBehavior : MonoBehaviour {
 
 		foreach(var s in GetAllFieldsWithAttribute(typeof(ComponentField))) {
 
-			var component = GetComponent(s.FieldType.ToString());
+			var component = GetComponent(s.FieldType.Name);
 
 			if (component == null) {
 
-				Debug.LogWarning("No component of type " + s.FieldType.ToString() + " found on the object!");
+				Debug.LogWarning("No component of type " + s.FieldType.Name + " found on the object!");
 				enabled = false;
 
 			} else {

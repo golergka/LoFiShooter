@@ -6,7 +6,7 @@ using System.Collections.Generic;
 // It optimizes distance checks. No Vision can have range more than gridStep.
 // However, the optimization only works for 2d or 2d-ish games (like RTS or RPGs).
 // If you have a lot of objects dispersed along Y-axis, you should rewrite it.
-public class VisibleGrid : MonoBehaviour {	
+public class VisibleGrid : BasicBehavior {	
 
 #region Singleton
 
@@ -28,7 +28,9 @@ public class VisibleGrid : MonoBehaviour {
 	public int gridSize = 10;
 	public List<Visible>[,] grid;
 
-	void Awake() {
+	protected override void Awake() {
+
+		base.Awake();
 
 		grid = new List<Visible> [gridSize, gridSize];
 		for(int x=0; x<gridSize; x++)

@@ -12,42 +12,6 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	[ComponentField]
 	WeaponDelegator weaponDelegator;
 
-	protected override void Awake() {
-
-		base.Awake();
-
-		// TODO: THIS MESS SHOULD BE SORTED OUT WITH STANDARD MONOBEHAVIOR SOON!
-
-		
-
-		// vision 				= GetComponent<Vision>();
-		characterController = (UnityEngine.CharacterController) GetComponent("UnityEngine.CharacterController");
-		// weaponDelegator 	= GetComponent<WeaponDelegator>();
-
-		
-
-		/*
-
-		if (!vision) {
-
-			Debug.LogWarning("Please add vision!");
-			enabled = false;
-
-		} */
-
-		if (!characterController) {
-
-			Debug.LogWarning("Please add characterController!");
-			enabled = false;
-
-		}
-
-		Debug.Log("Vision: " + vision.ToString());
-		Debug.Log("CharacterController: " + characterController.ToString());
-		Debug.Log("WeaponDelegator: " + weaponDelegator.ToString());
-
-	}
-
 	const string TAG_PLAYER = "Player";
 
 	enum EnemyState {

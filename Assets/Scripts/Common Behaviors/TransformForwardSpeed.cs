@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class TransformForwardSpeed : MonoBehaviour {
+public class TransformForwardSpeed : BasicBehavior {
 
 	public float speed;
 	

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Dissapearing : MonoBehaviour {
+public class Dissapearing : BasicBehavior {
 
 	public float timeToDissapear = 1f;
 	public string materialColorProperty = "_Color";

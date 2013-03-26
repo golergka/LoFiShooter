@@ -15,7 +15,7 @@ interface IVisionListener {
 	
 }
 
-public class Vision : MonoBehaviour {
+public class Vision : BasicBehavior {
 
 	public List<Visible> VisiblesInSight() {
 

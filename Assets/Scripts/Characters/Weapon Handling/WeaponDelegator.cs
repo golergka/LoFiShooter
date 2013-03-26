@@ -1,22 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class WeaponDelegator : MonoBehaviour {
+public class WeaponDelegator : BasicBehavior {
 
 	protected WeaponDelegate weaponDelegate;
 
+	[SetupableField]
 	public Transform weaponMount;
-
-	void Awake() {
-
-		if (!weaponMount) {
-
-			Debug.LogWarning("Please, configure weapon mount!");
-			enabled = false;
-
-		}
-
-	}
 
 	public void Fire() {
 
