@@ -5,18 +5,8 @@ public class Railgun : WeaponDelegate {
 
 	public int damage = 1;
 
+	[SetupableField]
 	public LineRenderer trail;
-
-	void Awake() {
-
-		if (!trail) {
-
-			Debug.LogWarning("Please configure trail prefab!");
-			enabled = false;
-
-		}
-
-	}
 
 	protected override void Shoot() {
 	

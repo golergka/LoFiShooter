@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Poppable : MonoBehaviour {
+public class Poppable : BasicBehavior {
 
 	public int damage;
 

@@ -10,7 +10,7 @@ interface IVisibleListener {
 
 }
 
-public class Visible : MonoBehaviour {
+public class Visible : BasicBehavior {
 
 	// The cell of the VisibleGrid I belong to.
 	// It's Visible's responsibility to register at corresponding cell and keeping the reference to it here.

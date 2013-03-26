@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class WeaponDelegate : MonoBehaviour {
+public abstract class WeaponDelegate : BasicBehavior {
 
 	public float firePeriod = 1f;
 	float lastFireTime = -1f;

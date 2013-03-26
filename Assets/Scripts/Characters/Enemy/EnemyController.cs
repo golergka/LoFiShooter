@@ -1,35 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyController : MonoBehaviour, IVisionListener {
+public class EnemyController : BasicBehavior, IVisionListener {
 
-	Vision 				vision;
+	[ComponentField]
+	Vision vision;
+	
+	[ComponentField]
 	CharacterController characterController;
-	WeaponDelegator		weaponDelegator;
 
-	void Awake() {
-
-		// TODO: THIS MESS SHOULD BE SORTED OUT WITH STANDARD MONOBEHAVIOR SOON!
-
-		vision 				= GetComponent<Vision>();
-		characterController = GetComponent<CharacterController>();
-		weaponDelegator 	= GetComponent<WeaponDelegator>();
-
-		if (!vision) {
-
-			Debug.LogWarning("Please add vision!");
-			enabled = false;
-
-		}
-
-		if (!characterController) {
-
-			Debug.LogWarning("Please add characterController!");
-			enabled = false;
-
-		}
-
-	}
+	[ComponentField]
+	WeaponDelegator weaponDelegator;
 
 	const string TAG_PLAYER = "Player";
 

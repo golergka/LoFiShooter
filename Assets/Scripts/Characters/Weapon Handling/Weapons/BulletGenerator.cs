@@ -3,27 +3,11 @@ using System.Collections;
 
 public class BulletGenerator : WeaponDelegate {
 
+	[SetupableField]
 	public Transform muzzle;
 
+	[SetupableField]
 	public Transform bullet;
-
-	void Awake() {
-
-		if (!muzzle) {
-
-			Debug.LogWarning("Please, set up muzzle!");
-			enabled = false;
-
-		}
-
-		if (!bullet) {
-
-			Debug.LogWarning("Please, set up bullet!");
-			enabled = false;
-
-		}
-
-	}
 
 	protected override void Shoot() {
 

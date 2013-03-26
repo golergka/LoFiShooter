@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class HealthHUD : MonoBehaviour {
+public class HealthHUD : BasicBehavior {
 
 	public float xSize = 0.1f;
 

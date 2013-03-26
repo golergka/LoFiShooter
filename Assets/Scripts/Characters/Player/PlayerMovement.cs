@@ -1,22 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : BasicBehavior {
 
 	const string AXIS_HORIZONTAL = "Horizontal";
 	const string AXIS_VERTICAL   = "Vertical";
 
+	[ComponentField]
 	CharacterController characterController;
-
-	void Awake() {
-
-		characterController = GetComponent<CharacterController>();
-		if (!characterController) {
-			Debug.LogWarning("No Character Controller found!");
-			enabled = false;
-		}
-
-	}
 
 	public float speed = 1f;
 	

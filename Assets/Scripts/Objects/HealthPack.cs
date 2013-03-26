@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class HealthPack : MonoBehaviour {
+public class HealthPack : BasicBehavior {
 
 	public int healing;
 

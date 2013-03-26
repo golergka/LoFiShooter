@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class TargetReticule : MonoBehaviour {
+public class TargetReticule : BasicBehavior {
 
 	// Use this for initialization
 	void Start () {
