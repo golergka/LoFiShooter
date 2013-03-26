@@ -1,26 +1,39 @@
 using UnityEngine;
 using System.Collections;
 
-public class EnemyController : MonoBehaviour, IVisionListener {
+public class EnemyController : BasicBehavior, IVisionListener {
 
-	Vision 				vision;
+	[ComponentField]
+	Vision vision;
+	
+	[ComponentField]
 	CharacterController characterController;
-	WeaponDelegator		weaponDelegator;
 
-	void Awake() {
+	[ComponentField]
+	WeaponDelegator weaponDelegator;
+
+	protected override void Awake() {
+
+		base.Awake();
 
 		// TODO: THIS MESS SHOULD BE SORTED OUT WITH STANDARD MONOBEHAVIOR SOON!
 
-		vision 				= GetComponent<Vision>();
-		characterController = GetComponent<CharacterController>();
-		weaponDelegator 	= GetComponent<WeaponDelegator>();
+		
+
+		// vision 				= GetComponent<Vision>();
+		characterController = (UnityEngine.CharacterController) GetComponent("UnityEngine.CharacterController");
+		// weaponDelegator 	= GetComponent<WeaponDelegator>();
+
+		
+
+		/*
 
 		if (!vision) {
 
 			Debug.LogWarning("Please add vision!");
 			enabled = false;
 
-		}
+		} */
 
 		if (!characterController) {
 
@@ -28,6 +41,10 @@ public class EnemyController : MonoBehaviour, IVisionListener {
 			enabled = false;
 
 		}
+
+		Debug.Log("Vision: " + vision.ToString());
+		Debug.Log("CharacterController: " + characterController.ToString());
+		Debug.Log("WeaponDelegator: " + weaponDelegator.ToString());
 
 	}
 
