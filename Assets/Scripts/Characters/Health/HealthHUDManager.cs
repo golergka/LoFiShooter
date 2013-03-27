@@ -6,7 +6,7 @@ public class HealthHUDManager : BasicBehavior {
 	public GameObject healthHUDPrefab;
 
 	// Use this for initialization
-	void Start () {
+	override public void OnGameReset () {
 
 		if (healthHUDPrefab == null) {
 			Debug.LogWarning("Specify health HUD prefab");

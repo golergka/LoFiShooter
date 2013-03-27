@@ -3,10 +3,7 @@ using System.Collections;
 
 public class TargetReticule : BasicBehavior {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+	public override void OnGameReset() { }
 	
 	// Update is called once per frame
 	void Update () {

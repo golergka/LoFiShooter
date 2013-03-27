@@ -12,8 +12,7 @@ public class Health : BasicBehavior {
 	[HideInInspector]
 	public HealthHUD hud;
 
-	// Use this for initialization
-	void Start () {
+	override public void OnGameReset () {
 
 		healthPoints = maxHealthPoints;
 	

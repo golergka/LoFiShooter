@@ -10,6 +10,8 @@ public class PlayerMovement : BasicBehavior {
 	MovementController movementController;
 
 	public float speed = 1f;
+
+	public override void OnGameReset() { }
 	
 	// Update is called once per frame
 	void Update () {

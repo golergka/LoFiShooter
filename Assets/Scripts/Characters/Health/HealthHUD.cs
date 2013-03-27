@@ -33,13 +33,8 @@ public class HealthHUD : BasicBehavior {
 
 	}
 
-	void Start() {
-
-		if (health == null) {
-			Debug.LogWarning("No health attached!");
-			gameObject.SetActive(false);
-		}
-
+	override public void OnGameReset() {
+		
 	}
 
 	// Update is called once per frame

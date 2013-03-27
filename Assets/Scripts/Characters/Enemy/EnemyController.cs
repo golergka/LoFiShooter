@@ -19,10 +19,17 @@ public class EnemyController : BasicBehavior, IVisionListener {
 		Engage,
 	}
 
-	EnemyState state = EnemyState.Idle;
+	EnemyState state;
+
+	override public void OnGameReset() {
+
+		state = EnemyState.Idle;
+		target = null;
+
+	}
 
 	Transform target;
-
+	
 	public float speed;
 	public float attackRange;
 

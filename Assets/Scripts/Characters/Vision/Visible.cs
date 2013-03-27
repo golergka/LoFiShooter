@@ -42,11 +42,17 @@ public class Visible : BasicBehavior {
 	// Defines the visibility of visible at start.
 	public bool visibleOnStart = true;
 
-	void Start() {
+	override protected void Start() {
 
-		visible = visibleOnStart;
+		base.Start();
 		myCell = VisibleGrid.instance.GetCell(transform.position);
 		myCell.Add(this);
+
+	}
+
+	override public void OnGameReset() {
+
+		visible = visibleOnStart;
 
 	}
 

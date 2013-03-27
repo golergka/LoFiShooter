@@ -27,6 +27,8 @@ public class CameraController : BasicBehavior {
 		cameraOffset = transform.position - target.position;
 		
 	}
+
+	public override void OnGameReset() { }
 	
 	private Vector3 targetCamera {
 		

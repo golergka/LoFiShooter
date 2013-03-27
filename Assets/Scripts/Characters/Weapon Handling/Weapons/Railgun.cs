@@ -8,6 +8,8 @@ public class Railgun : WeaponDelegate {
 	[SetupableField]
 	public LineRenderer trail;
 
+	public override void OnGameReset() { }
+
 	protected override void Shoot() {
 	
 		RaycastHit hit;

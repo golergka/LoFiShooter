@@ -51,10 +51,16 @@ public class Vision : BasicBehavior {
 
 	Component[] visionListeners;
 
-	void Start() {
+	protected override void Awake() {
+
+		base.Awake();
+		visionListeners = GetComponents(typeof(IVisionListener));
+
+	}
+
+	public override void OnGameReset() {
 
 		visionDistance = visionDistanceEditor;
-		visionListeners = GetComponents(typeof(IVisionListener));
 
 	}
 

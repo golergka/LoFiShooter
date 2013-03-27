@@ -15,6 +15,8 @@ public class WeaponDelegator : BasicBehavior {
 
 	}
 
+	public override void OnGameReset() { }
+
 	public void SwitchWeapon(WeaponDelegate weaponDelegatePrefab) {
 
 		if (weaponDelegate)

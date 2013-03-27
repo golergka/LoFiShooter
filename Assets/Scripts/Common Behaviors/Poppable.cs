@@ -7,6 +7,8 @@ public class Poppable : BasicBehavior {
 
 	public bool requireHealthToPop = false;
 
+	public override void OnGameReset() { }
+
 	void OnTriggerEnter(Collider other) {
 
 		if (other.gameObject == this.gameObject)

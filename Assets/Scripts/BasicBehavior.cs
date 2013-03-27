@@ -16,7 +16,11 @@ public abstract class BasicBehavior : MonoBehaviour {
 
 	}
 
+	protected static List<BasicBehavior> behaviors = new List<BasicBehavior>();
+
 	protected virtual void Awake() {
+
+		behaviors.Add(this);
 
 		// All fields with [SeupableField] attribute should be set up by designer.
 		// We're checking that.
@@ -76,6 +80,28 @@ public abstract class BasicBehavior : MonoBehaviour {
 			}
 
 		}
+
+	}
+
+	protected virtual void Start() {
+
+		OnGameReset();
+
+	}
+
+	public abstract void OnGameReset();
+
+	new public UnityEngine.Object Instantiate(UnityEngine.Object objectToCreate, Vector3 position, Quaternion rotation) {
+
+		UnityEngine.Object newObject = base.Instantiate (objectToCreate, position, rotation);
+
+		if (newObject is GameObject) {
+
+			( (GameObject) newObject ).AddComponent<DestroyOnReset>();
+
+		}
+
+		return newObject;
 
 	}
 
