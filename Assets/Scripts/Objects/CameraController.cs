@@ -27,7 +27,54 @@ public class CameraController : BasicBehavior {
 		previousTargetPosition = target.position;
 
 		cameraOffset = transform.position - target.position;
+
+		weaponDelegator = target.GetComponent<WeaponDelegator>();
+		if (weaponDelegator) {
+
+			weaponDelegator.OnSwitchWeapon += SwitchWeaponHandler;
+
+		}
 		
+	}
+
+	WeaponDelegate 	weaponDelegate;
+	WeaponDelegator weaponDelegator;
+
+	void RecoilHandler(WeaponDelegate d, float recoil) {
+
+		if (d != weaponDelegate) {
+
+			Debug.LogError("Wrong event sender! Expected: " + weaponDelegate + " got: " + d);
+			return;
+
+		}
+
+		Vector3 recoilOffset = new Vector3();
+		recoilOffset.x = Random.Range(-recoil, recoil);
+		recoilOffset.y = Random.Range(-recoil, recoil);
+		recoilOffset.z = Random.Range(-recoil, recoil);
+
+		transform.position += recoilOffset;
+
+	}
+
+	void SwitchWeaponHandler(WeaponDelegator delegator, WeaponDelegate d) {
+
+		if (delegator != weaponDelegator) {
+
+			Debug.LogError("Wrong event sender! Expected: " + weaponDelegator + " got: " + delegator);
+			return;
+
+		}
+
+		if (weaponDelegate)
+			weaponDelegate.OnRecoil -= RecoilHandler;
+
+		weaponDelegate = d;
+
+		if (weaponDelegate)
+			weaponDelegate.OnRecoil += RecoilHandler;
+
 	}
 
 	public override void OnGameReset() { }

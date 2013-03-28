@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 public class WeaponDelegator : BasicBehavior {
@@ -17,6 +18,8 @@ public class WeaponDelegator : BasicBehavior {
 
 	public override void OnGameReset() { }
 
+	public event Action<WeaponDelegator,WeaponDelegate> OnSwitchWeapon;
+
 	public void SwitchWeapon(WeaponDelegate weaponDelegatePrefab) {
 
 		if (weaponDelegate)
@@ -27,6 +30,9 @@ public class WeaponDelegator : BasicBehavior {
 
 		weaponDelegate = Instantiate(weaponDelegatePrefab, weaponMount.position, weaponMount.rotation) as WeaponDelegate;
 		weaponDelegate.transform.parent = weaponMount;
+
+		if (OnSwitchWeapon != null)
+			OnSwitchWeapon(this, weaponDelegate);
 
 	}
 	
