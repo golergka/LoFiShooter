@@ -24,6 +24,8 @@ public class CameraController : BasicBehavior {
 		
 		instance = this;
 
+		previousTargetPosition = target.position;
+
 		cameraOffset = transform.position - target.position;
 		
 	}
@@ -34,7 +36,7 @@ public class CameraController : BasicBehavior {
 		
 		get {
 			
-			return (cameraOffset + target.position);
+			return (cameraOffset + target.position + targetSpeed * lookAhead);
 			
 		}
 		
@@ -63,11 +65,19 @@ public class CameraController : BasicBehavior {
 		}
 		
 	}
+
+	Vector3 previousTargetPosition;
+	Vector3 targetSpeed;
 	
 	void LateUpdate() {
 		
+		targetSpeed = (target.position - previousTargetPosition)/Time.deltaTime;
+		targetSpeed.y = 0;
+
 		Apply();
 		
+		previousTargetPosition = target.position;
+
 	}
 
 }
