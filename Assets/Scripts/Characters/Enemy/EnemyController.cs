@@ -37,6 +37,9 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 		// TODO: random small movements around
 
+		movementController.Move(Vector3.zero);
+		movementController.LookAt(transform.forward);
+
 	}
 
 	void Engage() {
