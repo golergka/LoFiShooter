@@ -37,6 +37,12 @@ public class MovementController : BasicBehavior {
 
 	}
 
+	public void Stop() {
+
+		targetVelocity = Vector3.zero;
+
+	}
+
 	void FixedUpdate() {
 
 		Vector3 acceleration = (targetVelocity - rigidbody.velocity) / Time.deltaTime;

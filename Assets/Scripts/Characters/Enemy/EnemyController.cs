@@ -32,6 +32,7 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	
 	public float speed;
 	public float attackRange;
+	public float maxRange; // maximum range towards target
 
 	void Idle() {
 
@@ -44,8 +45,17 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 	void Engage() {
 
-		movementController.speed = speed;
-		movementController.Move( target.position - transform.position );
+		if ( (transform.position - target.position).magnitude > maxRange ) {
+
+			movementController.speed = speed;
+			movementController.Move( target.position - transform.position );
+
+		} else {
+
+			movementController.Stop();
+
+		}
+
 		movementController.LookAt( target.position );
 
 		if ( weaponDelegator && (target.position - transform.position).magnitude < attackRange ) {
