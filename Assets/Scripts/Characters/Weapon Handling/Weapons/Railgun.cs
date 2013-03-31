@@ -11,6 +11,9 @@ public class Railgun : WeaponDelegate {
 	[SetupableField]
 	public AnimationCurve spreadOverTime;
 
+	[SetupableField]
+	public ParticleSystem hitEffect;
+
 	public float spreadReset = 0.2f;
 
 	float firstShot = -1000f; // just a big enough value to keep the code simple
@@ -60,6 +63,11 @@ public class Railgun : WeaponDelegate {
 			shotLineRenderer.SetVertexCount(2);
 			shotLineRenderer.SetPosition(0, transform.position);
 			shotLineRenderer.SetPosition(1, hit.point);
+
+			Quaternion hitRotation = new Quaternion();
+			hitRotation.SetLookRotation(hit.normal);
+
+			Instantiate(hitEffect, hit.point, hitRotation);
 
 		}
 
