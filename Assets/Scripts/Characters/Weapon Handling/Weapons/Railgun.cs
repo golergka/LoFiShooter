@@ -38,9 +38,7 @@ public class Railgun : WeaponDelegate {
 		Quaternion spreadRotation = Quaternion.identity;
 		Vector3 spreadRotationAngles = new Vector3();
 
-		spreadRotationAngles.x = Random.Range( -spreadAngle, spreadAngle );
 		spreadRotationAngles.y = Random.Range( -spreadAngle, spreadAngle );
-		spreadRotationAngles.z = Random.Range( -spreadAngle, spreadAngle );
 
 		spreadRotation.eulerAngles = spreadRotationAngles;
 
