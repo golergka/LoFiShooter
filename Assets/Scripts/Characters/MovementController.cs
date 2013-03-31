@@ -24,7 +24,7 @@ public class MovementController : BasicBehavior {
 
 	}
 
-	const float MAX_ACCELERATION = 40f;
+	const float MAX_ACCELERATION = 60f;
 	Vector3 targetVelocity;
 
 	// Moving the character in this direction. It's normalized inside.
