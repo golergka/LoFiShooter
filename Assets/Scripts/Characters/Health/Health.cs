@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 public class Health : BasicBehavior {
@@ -17,6 +18,8 @@ public class Health : BasicBehavior {
 		healthPoints = maxHealthPoints;
 	
 	}
+
+	public Action<Health> OnHealthZero;
 	
 	public void InflictDamage(int damageAmount) {
 
@@ -30,7 +33,14 @@ public class Health : BasicBehavior {
 		if ( damageAmount >= healthPoints ) {
 
 			healthPoints = 0;
+
 			gameObject.SetActive(false); // TODO : implement custom death behaviors
+
+			if (OnHealthZero != null) {
+
+				OnHealthZero(this);
+
+			}
 
 		} else {
 
