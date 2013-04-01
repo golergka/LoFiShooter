@@ -7,7 +7,8 @@ public class CameraController : BasicBehavior {
 	public float smoothSpeed;
 	public float maxSpeed = 1f;
 	public float snapTimeout;
-	public float lookAhead = 1f;
+	public float mouseLookAheadRatio = 0.4f;
+	public float mouseLookAheadMax = 4f;
 	
 	Vector3 cameraOffset;
 	
@@ -83,7 +84,17 @@ public class CameraController : BasicBehavior {
 		
 		get {
 			
-			return (cameraOffset + target.position + targetSpeed * lookAhead);
+			Vector3 mouseLookAhead = PlayerMovement.mouseWorldPosition - target.position;
+			mouseLookAhead *= mouseLookAheadRatio;
+
+			if (mouseLookAhead.magnitude > mouseLookAheadMax) {
+				
+				mouseLookAhead.Normalize();
+				mouseLookAhead *= mouseLookAheadMax;
+
+			}
+
+			return (cameraOffset + target.position + mouseLookAhead );
 			
 		}
 		

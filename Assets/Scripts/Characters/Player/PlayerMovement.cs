@@ -27,6 +27,9 @@ public class PlayerMovement : BasicBehavior {
 	}
 
 	public override void OnGameReset() { }
+
+	// used for other scripts that would need this information
+	public static Vector3 mouseWorldPosition { get; private set; }
 	
 	// Update is called once per frame
 	void Update () {
@@ -47,6 +50,7 @@ public class PlayerMovement : BasicBehavior {
 			
 			Vector3 lookTarget = hit.point;
 			lookTarget.y = transform.position.y;
+			mouseWorldPosition = hit.point;
 
 			movementController.LookAt(lookTarget);
 			

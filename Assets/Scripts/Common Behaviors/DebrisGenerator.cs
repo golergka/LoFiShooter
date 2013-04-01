@@ -10,7 +10,9 @@ public class DebrisGenerator : BasicBehavior {
 	public Transform debris;
 
 	// Use this for initialization
-	void Start () {
+	override protected void Start () {
+
+		base.Start();
 
 		health.OnHealthZero += HealthZeroHandler;
 	
