@@ -177,7 +177,7 @@ public class Vision : BasicBehavior {
 
 		return (
 			difference.sqrMagnitude < sqrVisionDistance &&
-			Physics.Linecast(transform.position, observee.transform.position)
+			!Physics.Linecast(transform.position, observee.transform.position)
 			);
 
 	}

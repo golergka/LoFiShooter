@@ -2,7 +2,13 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class Health : BasicBehavior {
+public interface IDamageReceiver {
+
+	void InflictDamage(int damageAmount);
+
+}
+
+public class Health : BasicBehavior, IDamageReceiver {
 
 	public int healthPoints { get; private set; }
 

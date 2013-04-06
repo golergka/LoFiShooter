@@ -14,11 +14,11 @@ public class Poppable : BasicBehavior {
 		if (other.gameObject == this.gameObject)
 			return;
 
-		Health health = other.GetComponent<Health>();
+		IDamageReceiver damageReceiver = (IDamageReceiver) other.GetComponent(typeof(IDamageReceiver));
 
-		if (health) {
+		if (damageReceiver != null) {
 
-			health.InflictDamage(damage);
+			damageReceiver.InflictDamage(damage);
 			Destroy(this.gameObject);
 			return;
 

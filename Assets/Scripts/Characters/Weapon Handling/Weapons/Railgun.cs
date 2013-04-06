@@ -46,11 +46,11 @@ public class Railgun : WeaponDelegate {
 
 		if ( Physics.Raycast(transform.position, forward, out hit) ) {
 
-			Health targetHealth = hit.collider.GetComponent<Health>();
+			IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
 
-			if (targetHealth) {
+			if (targetDamageReceiver != null) {
 
-				targetHealth.InflictDamage(damage);
+				targetDamageReceiver.InflictDamage(damage);
 
 			}
 

@@ -44,11 +44,11 @@ public class Shotgun : WeaponDelegate {
 
 			if ( Physics.Linecast( transform.position, pelletLineFinish, out hit) ) {
 
-				Health targetHealth = hit.collider.GetComponent<Health>();
+				IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
 
-				if (targetHealth) {
+				if (targetDamageReceiver != null) {
 
-					targetHealth.InflictDamage(pelletDamage);
+					targetDamageReceiver.InflictDamage(pelletDamage);
 
 				}
 

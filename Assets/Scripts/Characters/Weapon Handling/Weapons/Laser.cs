@@ -73,11 +73,11 @@ public class Laser : WeaponDelegate {
 
 				// If we hit something, inflicting damage
 
-				Health targetHealth = hit.collider.GetComponent<Health>();
+				IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
 
-				if (targetHealth) {
+				if (targetDamageReceiver != null) {
 
-					targetHealth.InflictDamage(damage);
+					targetDamageReceiver.InflictDamage(damage);
 
 				}
 
