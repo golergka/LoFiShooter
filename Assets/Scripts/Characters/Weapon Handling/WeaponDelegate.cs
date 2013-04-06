@@ -35,13 +35,15 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	}
 
+	const string FLARE_COLOR_PROPERTY = "_TintColor";
+
 	void Update() {
 
 		if (flare) {
 
-			Color flareColor = flare.material.color;
+			Color flareColor = flare.material.GetColor(FLARE_COLOR_PROPERTY);
 			flareColor.a = 1 - Mathf.Min( (Time.time - lastFireTime)/flareTime, 1f);
-			flare.material.color = flareColor;
+			flare.material.SetColor(FLARE_COLOR_PROPERTY, flareColor);
 
 		}
 
