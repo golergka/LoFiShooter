@@ -7,6 +7,9 @@ public class Shotgun : WeaponDelegate {
 	public int minPellets = 10;
 	public int maxPellets = 15;
 
+	public float minPelletRange = 5f;
+	public float maxPelletRange = 10f;
+
 	public float spreadAngle = 20f;
 
 	[SetupableField]
@@ -36,7 +39,10 @@ public class Shotgun : WeaponDelegate {
 
 			forward = spreadRotation * forward;
 
-			if ( Physics.Raycast( transform.position, forward, out hit) ) {
+			float pelletRange = Random.Range(minPelletRange, maxPelletRange);
+			Vector3 pelletLineFinish = transform.position + forward * pelletRange;
+
+			if ( Physics.Linecast( transform.position, pelletLineFinish, out hit) ) {
 
 				Health targetHealth = hit.collider.GetComponent<Health>();
 
@@ -46,18 +52,22 @@ public class Shotgun : WeaponDelegate {
 
 				}
 
-				LineRenderer shotLineRenderer = (LineRenderer) Instantiate (trail, Vector3.zero, Quaternion.identity );
-
-				shotLineRenderer.SetVertexCount(2);
-				shotLineRenderer.SetPosition(0, transform.position);
-				shotLineRenderer.SetPosition(1, hit.point);
+				pelletLineFinish = hit.point;
 
 				Quaternion hitRotation = new Quaternion();
 				hitRotation.SetLookRotation(hit.normal);
 
 				Instantiate(hitEffect, hit.point, hitRotation);
 
+			} else {
+
 			}
+
+			LineRenderer shotLineRenderer = (LineRenderer) Instantiate (trail, Vector3.zero, Quaternion.identity );
+
+			shotLineRenderer.SetVertexCount(2);
+			shotLineRenderer.SetPosition(0, transform.position);
+			shotLineRenderer.SetPosition(1, pelletLineFinish );						
 
 		}
 
