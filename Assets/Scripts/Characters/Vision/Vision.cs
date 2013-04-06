@@ -1,8 +1,3 @@
-// Here you define either you want to check distances in 3d, or in 2d (without the Vector3.y)
-
-#define VISION_2D
-// #define VISION_3D
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -178,21 +173,12 @@ public class Vision : BasicBehavior {
 	// It's premature optimization. It's the root of all evil. I'm the fucking devil.
 	private bool VisibleInRange(Visible observee) {
 
-#if VISION_2D
+		Vector3 difference = observee.transform.position - transform.position;
 
-	Vector2 observee2d = new Vector2(observee.transform.position.x, observee.transform.position.z);
-	Vector2 position2d = new Vector2(transform.position.x, transform.position.z);
-	Vector2 difference = observee2d - position2d;
-	return (difference.sqrMagnitude < sqrVisionDistance);
-
-#endif
-
-#if VISION_3D
-
-	Vector3 difference = observee.transform.position - transform.position;
-	return (difference.sqrMagnitude < sqrVisionDistance);
-
-#endif
+		return (
+			difference.sqrMagnitude < sqrVisionDistance &&
+			Physics.Linecast(transform.position, observee.transform.position)
+			);
 
 	}
 
