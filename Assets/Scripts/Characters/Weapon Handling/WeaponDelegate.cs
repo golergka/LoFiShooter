@@ -29,6 +29,16 @@ public abstract class WeaponDelegate : BasicBehavior {
 			if (OnRecoil != null)
 				OnRecoil(this, cameraRecoil);
 
+			if (flare) {
+
+				Vector3 flareRotation = flare.transform.eulerAngles;
+
+				flareRotation.z = UnityEngine.Random.Range(0f,360f);
+
+				flare.transform.eulerAngles = flareRotation;
+
+			}
+
 			Shoot();
 
 		}
@@ -36,13 +46,14 @@ public abstract class WeaponDelegate : BasicBehavior {
 	}
 
 	const string FLARE_COLOR_PROPERTY = "_TintColor";
+	const float  FLARE_MAX_ALPHA = 0.5f;
 
 	void Update() {
 
 		if (flare) {
 
 			Color flareColor = flare.material.GetColor(FLARE_COLOR_PROPERTY);
-			flareColor.a = 1 - Mathf.Min( (Time.time - lastFireTime)/flareTime, 1f);
+			flareColor.a = FLARE_MAX_ALPHA - Mathf.Min( (Time.time - lastFireTime)/flareTime, FLARE_MAX_ALPHA);
 			flare.material.SetColor(FLARE_COLOR_PROPERTY, flareColor);
 
 		}
