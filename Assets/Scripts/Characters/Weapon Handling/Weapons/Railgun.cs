@@ -8,11 +8,43 @@ public class Railgun : WeaponDelegate {
 	[SetupableField]
 	public LineRenderer trail;
 
+	[SetupableField]
+	public AnimationCurve spreadOverTime;
+
+	[SetupableField]
+	public ParticleSystem hitEffect;
+
+	public float spreadReset = 0.2f;
+
+	float firstShot = -1000f; // just a big enough value to keep the code simple
+	float lastShot = -1000f;
+
+	public override void OnGameReset() { }
+
 	protected override void Shoot() {
+
+		// Resetting the spread if it's due
+		if ( (Time.time - lastShot) > spreadReset )
+			firstShot = Time.time;
+
+		lastShot = Time.time;
 	
 		RaycastHit hit;
 
-		if ( Physics.Raycast(transform.position, transform.forward, out hit) ) {
+		Vector3 forward = transform.forward;
+
+		float spreadAngle = spreadOverTime.Evaluate(Time.time - firstShot);
+
+		Quaternion spreadRotation = Quaternion.identity;
+		Vector3 spreadRotationAngles = new Vector3();
+
+		spreadRotationAngles.y = Random.Range( -spreadAngle, spreadAngle );
+
+		spreadRotation.eulerAngles = spreadRotationAngles;
+
+		forward = spreadRotation * forward;
+
+		if ( Physics.Raycast(transform.position, forward, out hit) ) {
 
 			Health targetHealth = hit.collider.GetComponent<Health>();
 
@@ -30,7 +62,12 @@ public class Railgun : WeaponDelegate {
 			shotLineRenderer.SetPosition(0, transform.position);
 			shotLineRenderer.SetPosition(1, hit.point);
 
-		}		
+			Quaternion hitRotation = new Quaternion();
+			hitRotation.SetLookRotation(hit.normal);
+
+			Instantiate(hitEffect, hit.point, hitRotation);
+
+		}
 
 	}
 

@@ -8,8 +8,7 @@ public class DefaultWeapon : BasicBehavior {
 	[ComponentField]
 	WeaponDelegator delegator;
 
-	// Use this for initialization
-	void Start () {
+	public override void OnGameReset () {
 
 		delegator.SwitchWeapon(defaultWeapon);
 	

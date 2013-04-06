@@ -16,8 +16,14 @@ public abstract class BasicBehavior : MonoBehaviour {
 
 	}
 
+	protected static List<BasicBehavior> behaviors = new List<BasicBehavior>();
+
 	protected virtual void Awake() {
 
+		behaviors.Add(this);
+
+		// All fields with [SeupableField] attribute should be set up by designer.
+		// We're checking that.
 		foreach(var s in GetAllFieldsWithAttribute(typeof(SetupableField))) {
 
 			if (s.GetValue(this) == null) {
@@ -29,14 +35,43 @@ public abstract class BasicBehavior : MonoBehaviour {
 
 		}
 
+		// All fields with [ComponentField] attribte are just links to components on this gameObject.
+		// We are creating this links.
 		foreach(var s in GetAllFieldsWithAttribute(typeof(ComponentField))) {
 
 			var component = GetComponent(s.FieldType.Name);
 
 			if (component == null) {
 
-				Debug.LogWarning("No component of type " + s.FieldType.Name + " found on the object!");
-				enabled = false;
+				if ( s.FieldType.GetFields().Length == 0 ) {
+
+					/*
+					In case this kind of component isn't configurable by designer (doesn't have any public fields),
+					we can create it ourselves. No big deal.
+					*/
+
+					component = gameObject.AddComponent(s.FieldType);
+					//Debug.Log("Added component " + component.ToString() );
+
+					if (component != null) {
+
+						s.SetValue(this, component);
+
+					} else {
+
+						Debug.LogWarning("Failed to create component " + s.FieldType.Name);
+						enabled = false;
+
+					}
+
+				} else {
+
+					// But if it has public fields, it should be added beforehand.
+
+					Debug.LogWarning("No component of type " + s.FieldType.Name + " found on the object!");
+					enabled = false;
+
+				}
 
 			} else {
 
@@ -45,6 +80,28 @@ public abstract class BasicBehavior : MonoBehaviour {
 			}
 
 		}
+
+	}
+
+	protected virtual void Start() {
+
+		OnGameReset();
+
+	}
+
+	public abstract void OnGameReset();
+
+	new public UnityEngine.Object Instantiate(UnityEngine.Object objectToCreate, Vector3 position, Quaternion rotation) {
+
+		UnityEngine.Object newObject = base.Instantiate (objectToCreate, position, rotation);
+
+		if (newObject is GameObject) {
+
+			( (GameObject) newObject ).AddComponent<DestroyOnReset>();
+
+		}
+
+		return newObject;
 
 	}
 

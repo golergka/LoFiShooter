@@ -7,49 +7,56 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	Vision vision;
 	
 	[ComponentField]
-	CharacterController characterController;
+	MovementController movementController;
 
 	[ComponentField]
 	WeaponDelegator weaponDelegator;
 
-	const string TAG_PLAYER = "Player";
+	const string TAG_PLAYER = "Player"; // TODO: Create separate static class with all game-level constants
 
 	enum EnemyState {
 		Idle,
 		Engage,
 	}
 
-	EnemyState state = EnemyState.Idle;
+	EnemyState state;
+
+	override public void OnGameReset() {
+
+		state = EnemyState.Idle;
+		target = null;
+
+	}
 
 	Transform target;
-
+	
 	public float speed;
 	public float attackRange;
+	public float maxRange; // maximum range towards target
 
 	void Idle() {
 
 		// TODO: random small movements around
 
+		movementController.Move(Vector3.zero);
+		movementController.LookAt(transform.forward);
+
 	}
 
 	void Engage() {
 
-		Vector3 motion = target.position - transform.position;
-		motion.y = 0; // we move on horizontal plane;
-		
-		// This code duplicates PlayerMovement.cs
-		// TODO: research refactoring probability without being insane architecture astronaut
+		if ( (transform.position - target.position).magnitude > maxRange ) {
 
-		motion.Normalize();
-		motion *= speed;
-		characterController.Move(motion * Time.deltaTime);
+			movementController.speed = speed;
+			movementController.Move( target.position - transform.position );
 
-		// And this as MouseRotation.cs
-		// TODO: same
+		} else {
 
-		Vector3 lookTarget = target.position;
-		lookTarget.y = transform.position.y;
-		transform.LookAt(lookTarget);
+			movementController.Stop();
+
+		}
+
+		movementController.LookAt( target.position );
 
 		if ( weaponDelegator && (target.position - transform.position).magnitude < attackRange ) {
 

@@ -8,7 +8,7 @@ public class Dissapearing : BasicBehavior {
 
 	float startTime;
 
-	void Start() {
+	override public void OnGameReset() {
 
 		startTime = Time.time;
 

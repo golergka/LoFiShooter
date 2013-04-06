@@ -9,6 +9,8 @@ public class BulletGenerator : WeaponDelegate {
 	[SetupableField]
 	public Transform bullet;
 
+	public override void OnGameReset() { }
+
 	protected override void Shoot() {
 
 		Instantiate(bullet, muzzle.position, muzzle.rotation);

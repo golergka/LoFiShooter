@@ -39,6 +39,8 @@ public class VisibleGrid : BasicBehavior {
 
 	}
 
+	public override void OnGameReset() { }
+
 #endregion
 
 #region Public
