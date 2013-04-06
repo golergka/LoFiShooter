@@ -15,6 +15,9 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	public event Action<WeaponDelegate, float> OnRecoil;
 
+	public Renderer flare;
+	public float flareTime = 0.1f;
+
 	public void Fire() {
 
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
@@ -22,10 +25,23 @@ public abstract class WeaponDelegate : BasicBehavior {
 			lastFireTime = Time.time;
 
 			shootSound.Play(this);
+
 			if (OnRecoil != null)
 				OnRecoil(this, cameraRecoil);
 
 			Shoot();
+
+		}
+
+	}
+
+	void Update() {
+
+		if (flare) {
+
+			Color flareColor = flare.material.color;
+			flareColor.a = 1 - Mathf.Min( (Time.time - lastFireTime)/flareTime, 1f);
+			flare.material.color = flareColor;
 
 		}
 
