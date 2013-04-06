@@ -56,8 +56,6 @@ public class Railgun : WeaponDelegate {
 
 			LineRenderer shotLineRenderer = (LineRenderer) Instantiate(trail, Vector3.zero, Quaternion.identity);
 
-			// LineRenderer shotLineRenderer = shot.GetComponent<LineRenderer>();
-
 			shotLineRenderer.SetVertexCount(2);
 			shotLineRenderer.SetPosition(0, transform.position);
 			shotLineRenderer.SetPosition(1, hit.point);
