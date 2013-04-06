@@ -1,21 +1,35 @@
 using UnityEngine;
 using System.Collections;
 
-public class Poppable : MonoBehaviour {
+public class Poppable : BasicBehavior {
 
 	public int damage;
 
-	void OnCollisionEnter(Collision collision) {
+	public bool requireHealthToPop = false;
 
-		Health health = collision.gameObject.GetComponent<Health>();
+	void OnTriggerEnter(Collider other) {
+
+		if (other.gameObject == this.gameObject)
+			return;
+
+		Health health = other.GetComponent<Health>();
 
 		if (health) {
 
 			health.InflictDamage(damage);
+			Destroy(this.gameObject);
+			return;
 
 		}
 
-		Destroy(this.gameObject);
+		if (!requireHealthToPop)
+			Destroy(this.gameObject);
+
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit) {
+
+		OnTriggerEnter(hit.collider);
 
 	}
 

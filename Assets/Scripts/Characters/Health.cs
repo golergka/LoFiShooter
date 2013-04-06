@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Health : MonoBehaviour {
+public class Health : BasicBehavior {
 
 	public int healthPoints { get; private set; }
 
@@ -38,6 +38,19 @@ public class Health : MonoBehaviour {
 			healthPoints -= damageAmount;
 
 		}
+
+	}
+
+	public void InflictHealing(int healingAmount) {
+
+		if ( healingAmount == 0 ) {
+
+			Debug.LogWarning("Received 0 healing!");
+			return;
+
+		}
+
+		healthPoints = Mathf.Min( healthPoints + healingAmount, maxHealthPoints );
 
 	}
 
