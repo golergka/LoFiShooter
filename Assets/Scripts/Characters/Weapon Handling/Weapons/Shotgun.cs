@@ -59,8 +59,6 @@ public class Shotgun : WeaponDelegate {
 
 				Instantiate(hitEffect, hit.point, hitRotation);
 
-			} else {
-
 			}
 
 			LineRenderer shotLineRenderer = (LineRenderer) Instantiate (trail, Vector3.zero, Quaternion.identity );
