@@ -24,6 +24,19 @@ public class Laser : WeaponDelegate {
 
 	public override void OnGameReset() { }
 
+	void RenderLine(Vector3 start, Vector3 end, Color startColor, Color endColor, float startWidth, float endWidth) {
+
+		LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
+
+		rayRenderer.SetVertexCount(2);
+		rayRenderer.SetPosition(0, start);
+		rayRenderer.SetPosition(1, end);
+
+		rayRenderer.SetColors(startColor, endColor);
+		rayRenderer.SetWidth(startWidth, endWidth);
+
+	}
+
 	protected override void Shoot() {
 
 		float rangeLeft = range;
@@ -34,79 +47,59 @@ public class Laser : WeaponDelegate {
 		Color rayColor = startColor;
 		float rayWidth = startWidth;
 
-		while (rangeLeft > 0f) {
-			/*
-			 This loop should actually never finish on this condition, and always finish on the break later.
-			 However, I added this just as a precaution against a neverending loop.
-			*/
+		RaycastHit hit;
 
-			RaycastHit hit;			
+		// ATTENTION!
+		// This line repeats below at the end of the loop.
+		Vector3 rayFinish = rayPosition + rayDirection * rangeLeft;
 
-			Vector3 rayFinish = rayPosition + rayDirection * rangeLeft;
+		while (Physics.Linecast ( rayPosition, rayFinish, out hit ) ) {
 
-			if (Physics.Linecast ( rayPosition, rayFinish, out hit ) ) {
+			// Substracting distance
 
-				// Substracting distance
+			rangeLeft -= hit.distance;
 
-				rangeLeft -= hit.distance;
+			// Instantiating line renderer
 
-				// Instantiating line renderer
+			float rayComplete = 1 - (rangeLeft / range);
+			
+			Color newColor = Color.Lerp(startColor, endColor, rayComplete);
+			float newWidth = Mathf.Lerp(startWidth, endWidth, rayComplete);
 
-				LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
+			RenderLine(rayPosition, hit.point, rayColor, newColor, rayWidth, newWidth);
 
-				rayRenderer.SetVertexCount(2);
-				rayRenderer.SetPosition(0, rayPosition);
-				rayRenderer.SetPosition(1, hit.point);
+			rayColor = newColor;
+			rayWidth = newWidth;
 
-				float rayComplete = 1 - (rangeLeft / range);
-				
-				Color newColor = Color.Lerp(startColor, endColor, rayComplete);
-				float newWidth = Mathf.Lerp(startWidth, endWidth, rayComplete);
+			// Instantiating hit effect
 
-				rayRenderer.SetColors(rayColor, newColor);
-				rayRenderer.SetWidth(rayWidth, newWidth);
+			Quaternion hitRotation = new Quaternion();
+			hitRotation.SetLookRotation(hit.normal);
 
-				rayColor = newColor;
-				rayWidth = newWidth;
+			Instantiate(hitEffect, hit.point, hitRotation);
 
-				// Instantiating hit effect
+			// Reflecting
 
-				Quaternion hitRotation = new Quaternion();
-				hitRotation.SetLookRotation(hit.normal);
+			rayPosition = hit.point;
+			rayDirection = Vector3.Reflect(rayDirection, hit.normal);
 
-				Instantiate(hitEffect, hit.point, hitRotation);
+			// If we hit something, inflicting damage
 
-				// Reflecting
+			IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
 
-				rayPosition = hit.point;
-				rayDirection = Vector3.Reflect(rayDirection, hit.normal);
+			if (targetDamageReceiver != null) {
 
-				// If we hit something, inflicting damage
-
-				IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
-
-				if (targetDamageReceiver != null) {
-
-					targetDamageReceiver.InflictDamage(damage);
-
-				}
-
-			} else {
-
-				LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
-
-				rayRenderer.SetVertexCount(2);
-				rayRenderer.SetPosition(0, rayPosition);
-				rayRenderer.SetPosition(1, rayFinish);
-
-				rayRenderer.SetColors(rayColor, endColor);
-				rayRenderer.SetWidth(rayWidth, endWidth);
-
-				break;
+				targetDamageReceiver.InflictDamage(damage);
 
 			}
 
+			// ATTENTION!
+			// This line above, before the loop.
+			rayFinish = rayPosition + rayDirection * rangeLeft;
+
 		}
+
+		RenderLine(rayPosition, rayFinish, rayColor, endColor, rayWidth, endWidth);
 
 	}
 
