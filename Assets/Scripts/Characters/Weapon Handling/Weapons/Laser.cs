@@ -13,6 +13,15 @@ public class Laser : WeaponDelegate {
 	[SetupableField]
 	public ParticleSystem hitEffect;
 
+	[SetupableField]
+	public Color startColor;
+
+	[SetupableField]
+	public Color endColor;
+
+	public float startWidth = 1f;
+	public float endWidth = 1f;
+
 	public override void OnGameReset() { }
 
 	protected override void Shoot() {
@@ -22,12 +31,8 @@ public class Laser : WeaponDelegate {
 		Vector3 rayPosition  = transform.position;
 		Vector3 rayDirection = transform.forward;
 
-		LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
-
-		rayRenderer.SetVertexCount(1);
-		rayRenderer.SetPosition(0, transform.position);
-
-		int vertexCount = 1;
+		Color rayColor = startColor;
+		float rayWidth = startWidth;
 
 		while (rangeLeft > 0f) {
 			/*
@@ -35,23 +40,34 @@ public class Laser : WeaponDelegate {
 			 However, I added this just as a precaution against a neverending loop.
 			*/
 
-			RaycastHit hit;
-
-			Debug.Log("Reclection: " + vertexCount);
-			Debug.Log("Ray position:  " + rayPosition);
-			Debug.Log("Ray direction: " + rayDirection);
+			RaycastHit hit;			
 
 			Vector3 rayFinish = rayPosition + rayDirection * rangeLeft;
 
-			Debug.Log("Ray finish:    " + rayFinish);
-
-			Debug.DrawLine( rayPosition, rayFinish, Color.green );
-
 			if (Physics.Linecast ( rayPosition, rayFinish, out hit ) ) {
 
-				Debug.DrawLine( rayPosition, hit.point);
+				// Substracting distance
 
-				Debug.Log("Ray hit:       " + hit.point);
+				rangeLeft -= hit.distance;
+
+				// Instantiating line renderer
+
+				LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
+
+				rayRenderer.SetVertexCount(2);
+				rayRenderer.SetPosition(0, rayPosition);
+				rayRenderer.SetPosition(1, hit.point);
+
+				float rayComplete = 1 - (rangeLeft / range);
+				
+				Color newColor = Color.Lerp(startColor, endColor, rayComplete);
+				float newWidth = Mathf.Lerp(startWidth, endWidth, rayComplete);
+
+				rayRenderer.SetColors(rayColor, newColor);
+				rayRenderer.SetWidth(rayWidth, newWidth);
+
+				rayColor = newColor;
+				rayWidth = newWidth;
 
 				// Instantiating hit effect
 
@@ -64,12 +80,6 @@ public class Laser : WeaponDelegate {
 
 				rayPosition = hit.point;
 				rayDirection = Vector3.Reflect(rayDirection, hit.normal);
-				rangeLeft -= hit.distance;
-
-				// Adding hit point to the rayRenderer
-
-				rayRenderer.SetVertexCount( ++vertexCount );
-				rayRenderer.SetPosition(vertexCount - 1, rayPosition);
 
 				// If we hit something, inflicting damage
 
@@ -83,17 +93,20 @@ public class Laser : WeaponDelegate {
 
 			} else {
 
-				// Adding final point to the line renderer
+				LineRenderer rayRenderer = (LineRenderer) Instantiate ( trail, Vector3.zero, Quaternion.identity );
 
-				rayRenderer.SetVertexCount( ++vertexCount );
-				rayRenderer.SetPosition( vertexCount - 1, rayFinish );
+				rayRenderer.SetVertexCount(2);
+				rayRenderer.SetPosition(0, rayPosition);
+				rayRenderer.SetPosition(1, rayFinish);
+
+				rayRenderer.SetColors(rayColor, endColor);
+				rayRenderer.SetWidth(rayWidth, endWidth);
+
 				break;
 
 			}
 
 		}
-
-		// Debug.Break();
 
 	}
 
