@@ -59,7 +59,7 @@ public class Vision : BasicBehavior {
 
 	}
 
-	#region Messaging
+#region Messaging
 
 	private void SendNoticedMessage(Visible observee) {
 
@@ -75,9 +75,9 @@ public class Vision : BasicBehavior {
 
 	}
 
-	#endregion
+#endregion
 
-	#region Visibles and invisibles
+#region Visibles and invisibles
 
 	// We keep arrays of both visibles and invisbles in sight
 	private const int VISION_LIMIT = 100; // Vision limit
@@ -147,7 +147,7 @@ public class Vision : BasicBehavior {
 
 	}
 
-	#endregion
+#endregion
 
 	public void ChangedVisibility(Visible visible) {
 
@@ -167,6 +167,20 @@ public class Vision : BasicBehavior {
 
 	}
 
+	Transform RootParent(Transform child) {
+
+		if (child.parent) {
+
+			return RootParent(child.parent);
+
+		} else {
+
+			return child;
+
+		}
+
+	}
+
 	// Here we check if the Visible is in our range.
 	// It's quite easy to change from 2d to 3d mechanics with a single define.
 	// 2d is supposed to be faster. I didn't test it yet.
@@ -175,9 +189,19 @@ public class Vision : BasicBehavior {
 
 		Vector3 difference = observee.transform.position - transform.position;
 
+		if (difference.sqrMagnitude >= sqrVisionDistance)
+			return false;
+
+		RaycastHit hit;
+		bool lineCast = Physics.Linecast(transform.position, observee.transform.position, out hit);
+
+		if (lineCast && hit.collider.gameObject != observee.gameObject) {
+			Debug.DrawLine(transform.position, hit.point);
+		}
+
 		return (
-			difference.sqrMagnitude < sqrVisionDistance &&
-			!Physics.Linecast(transform.position, observee.transform.position)
+			!lineCast ||
+			RootParent(hit.collider.transform) == RootParent (observee.transform)
 			);
 
 	}

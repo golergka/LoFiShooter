@@ -46,8 +46,6 @@ public class DoorController : BasicBehavior {
 
 	void Open() {
 
-		Debug.Log("Open!");
-
 		if (state == DoorControllerState.Destroyed)
 			return;
 
@@ -57,8 +55,6 @@ public class DoorController : BasicBehavior {
 	}
 
 	void Close() {
-
-		Debug.Log("Closed!");
 
 		if (state == DoorControllerState.Destroyed)
 			return;
