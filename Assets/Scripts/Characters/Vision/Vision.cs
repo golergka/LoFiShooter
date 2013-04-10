@@ -167,17 +167,17 @@ public class Vision : BasicBehavior {
 
 	}
 
-	Transform RootParent(Transform child) {
+	Visible RootVisible(Transform child) {
 
-		if (child.parent) {
+		Visible result = child.GetComponent<Visible>();
 
-			return RootParent(child.parent);
+		if (result)
+			return result;
 
-		} else {
+		if (child.parent)
+			return RootVisible(child.parent);
 
-			return child;
-
-		}
+		return null;
 
 	}
 
@@ -201,7 +201,7 @@ public class Vision : BasicBehavior {
 
 		return (
 			!lineCast ||
-			RootParent(hit.collider.transform) == RootParent (observee.transform)
+			RootVisible(hit.collider.transform) == RootVisible(observee.transform)
 			);
 
 	}
