@@ -10,7 +10,22 @@ public interface IDamageReceiver {
 
 public class Health : BasicBehavior, IDamageReceiver {
 
-	public int healthPoints { get; private set; }
+	private int _healthPoints;
+	public int healthPoints {
+		get {
+			return _healthPoints;
+		}
+
+		private set {
+
+			_healthPoints = value;
+
+			if (OnHealthChange != null) {
+				OnHealthChange(this);
+			}
+
+		}
+	}
 
 	public int maxHealthPoints = 100;
 
@@ -21,6 +36,7 @@ public class Health : BasicBehavior, IDamageReceiver {
 	}
 
 	public Action<Health> OnHealthZero;
+	public Action<Health> OnHealthChange;
 	
 	public void InflictDamage(int damageAmount) {
 
@@ -38,9 +54,7 @@ public class Health : BasicBehavior, IDamageReceiver {
 			gameObject.SetActive(false); // TODO : implement custom death behaviors
 
 			if (OnHealthZero != null) {
-
 				OnHealthZero(this);
-
 			}
 
 		} else {
