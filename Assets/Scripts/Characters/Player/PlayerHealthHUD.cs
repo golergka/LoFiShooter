@@ -42,12 +42,19 @@ public class PlayerHealthHUD : BasicBehavior {
 
 		float healthPercentage = (float) playerHealth.healthPoints / (float) playerHealth.maxHealthPoints;
 
-		transform.position = new Vector3( healthPercentage * fullHealthScreenSize / 2,
-			transform.position.y, transform.position.z);
-		transform.localScale = new Vector3( healthPercentage * fullHealthScreenSize,
-			transform.localScale.y, transform.localScale.z);
+		iTween.ScaleTo(gameObject, new Hashtable() {
+				{ "x", healthPercentage * fullHealthScreenSize },
+			});
 
 		guiTexture.color = Color.Lerp( zeroHealthColor, fullHealthColor, healthPercentage);
+
+	}
+
+	void Update() {
+
+		// Maintain that it shows the whole texture and touches the left side of the screen
+		transform.position = new Vector3( transform.localScale.x / 2,
+			transform.position.y, transform.position.z);
 
 	}
 
