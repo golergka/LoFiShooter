@@ -14,11 +14,6 @@ public class Health : BasicBehavior, IDamageReceiver {
 
 	public int maxHealthPoints = 100;
 
-	public bool showHUD = true;
-
-	[HideInInspector]
-	public HealthHUD hud;
-
 	override public void OnGameReset () {
 
 		healthPoints = maxHealthPoints;
