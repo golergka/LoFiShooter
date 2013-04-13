@@ -5,7 +5,7 @@ using System.Collections;
 public abstract class WeaponDelegate : BasicBehavior {
 
 	public float firePeriod = 1f;
-	public float cameraRecoil = 1f;
+	public float recoil = 1f;
 
 	public SoundEvent shootSound;
 
@@ -27,7 +27,7 @@ public abstract class WeaponDelegate : BasicBehavior {
 			shootSound.Play(this);
 
 			if (OnRecoil != null)
-				OnRecoil(this, cameraRecoil);
+				OnRecoil(this, recoil);
 
 			if (flare) {
 
