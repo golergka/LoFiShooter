@@ -9,6 +9,8 @@ public class DoorController : BasicBehavior {
 	[SetupableField]
 	public Transform door;
 
+	public Transform hider;
+
 	public Vector3 openDoorDelta;
 
 	public float animationSpeed = 1f;
@@ -48,6 +50,9 @@ public class DoorController : BasicBehavior {
 
 		if (state == DoorControllerState.Destroyed)
 			return;
+
+		if (hider)
+			hider.gameObject.SetActive(false);
 
 		state = DoorControllerState.Open;
 		iTween.MoveTo(door.gameObject, openPosition, animationSpeed);
@@ -90,6 +95,7 @@ public class DoorController : BasicBehavior {
 
 		door.gameObject.SetActive(true);
 		state = DoorControllerState.Closed;
+		hider.gameObject.SetActive(true);
 
 	}
 
