@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DefaultWeapon : BasicBehavior {
 
+	[SetupableField]
 	public WeaponDelegate defaultWeapon;
 
 	[ComponentField]

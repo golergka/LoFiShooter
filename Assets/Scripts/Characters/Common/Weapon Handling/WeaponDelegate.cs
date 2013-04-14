@@ -18,6 +18,13 @@ public abstract class WeaponDelegate : BasicBehavior {
 	public Renderer flare;
 	public float flareTime = 0.1f;
 
+	// Name to be used in GUI. Can be changed to localizable type later.
+	// Can be ommited for weapons that AI use.
+	public string guiName;
+
+	// Can be ommited for weapons that AI use.
+	public Texture guiIcon;
+
 	public void Fire() {
 
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
