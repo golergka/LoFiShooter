@@ -25,6 +25,16 @@ public abstract class WeaponDelegate : BasicBehavior {
 	// Can be ommited for weapons that AI use.
 	public Texture guiIcon;
 
+	ParticleSystem shellEmitter;
+
+	override protected void Awake() {
+
+		base.Awake();
+
+		shellEmitter = GetComponentInChildren<ParticleSystem>();
+
+	}
+
 	public void Fire() {
 
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
@@ -43,6 +53,12 @@ public abstract class WeaponDelegate : BasicBehavior {
 				flareRotation.z = UnityEngine.Random.Range(0f,360f);
 
 				flare.transform.eulerAngles = flareRotation;
+
+			}
+
+			if (shellEmitter) {
+
+				shellEmitter.Emit(1);
 
 			}
 
