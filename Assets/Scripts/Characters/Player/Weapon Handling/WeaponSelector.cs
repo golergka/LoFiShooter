@@ -110,9 +110,37 @@ public class WeaponSelector : BasicBehavior {
 		}
 
 	}
+
+	const string MOUSE_WHEEL = "Mouse ScrollWheel";
+
+	const float WHEEL_SENSITIVITY = 1f;
+
+	float wheelPosition = 0f;
 	
 	// Update is called once per frame
 	void Update () {
+
+		// Debug.Log("Wheel: " + Input.GetAxis(MOUSE_WHEEL));
+
+		wheelPosition += Input.GetAxis(MOUSE_WHEEL);
+
+		if (Mathf.Abs(wheelPosition) > WHEEL_SENSITIVITY) {
+
+			int sign = (wheelPosition > 0) ? 1 : -1;
+
+			int newWeaponNumber = selectedWeapon.Value + sign;
+			
+			if (newWeaponNumber < 0)
+				newWeaponNumber = weapons.Count - 1;
+
+			if (newWeaponNumber >= weapons.Count)
+				newWeaponNumber = 0;
+
+			SwitchWeapon(newWeaponNumber);
+
+			wheelPosition -= WHEEL_SENSITIVITY * sign;
+			
+		}
 
 		string inputString = Input.inputString;
 
