@@ -37,6 +37,8 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	public void Fire() {
 
+		Debug.Log("Fire!");
+
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
 
 			lastFireTime = Time.time;
