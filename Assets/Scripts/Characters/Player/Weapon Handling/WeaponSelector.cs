@@ -51,7 +51,7 @@ public class WeaponSelector : BasicBehavior {
 			weaponTexture.transform.position = new Vector3(1f,0f,0f);
 			
 			Rect thisTextureInset = weaponTextureInset;
-			thisTextureInset.x -= weaponTextures.Count * (space + weaponTextureInset.width) + rightMargin;
+			thisTextureInset.x -= (weapons.Count - weaponTextures.Count + 1) * (space + weaponTextureInset.width) + rightMargin;
 			thisTextureInset.y += bottomMargin;
 			weaponTexture.pixelInset = thisTextureInset;
 
