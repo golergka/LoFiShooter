@@ -37,8 +37,6 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	public void Fire() {
 
-		Debug.Log("Fire!");
-
 		if ( lastFireTime < 0 || (Time.time - lastFireTime) > firePeriod ) {
 
 			lastFireTime = Time.time;
@@ -70,16 +68,35 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	}
 
-	const string FLARE_COLOR_PROPERTY = "_TintColor";
+	static readonly string[] FLARE_COLOR_PROPERTY = { "_TintColor", "_Color" };
 	const float  FLARE_MAX_ALPHA = 0.5f;
 
 	void Update() {
 
 		if (flare) {
 
-			Color flareColor = flare.material.GetColor(FLARE_COLOR_PROPERTY);
-			flareColor.a = FLARE_MAX_ALPHA - Mathf.Min( (Time.time - lastFireTime)/flareTime, FLARE_MAX_ALPHA);
-			flare.material.SetColor(FLARE_COLOR_PROPERTY, flareColor);
+			string colorProperty = null;
+
+			foreach(string p in FLARE_COLOR_PROPERTY) {
+
+				if (flare.material.HasProperty(p)) {
+					colorProperty = p;
+					break;
+				}
+
+			}
+
+			if (colorProperty != null) {
+
+				Color flareColor = flare.material.GetColor(colorProperty);
+				flareColor.a = FLARE_MAX_ALPHA - Mathf.Min( (Time.time - lastFireTime)/flareTime, FLARE_MAX_ALPHA);
+				flare.material.SetColor(colorProperty, flareColor);
+
+			} else {
+
+				Debug.LogWarning("Muzzle flash shader doesn't have color property I can use!");
+
+			}
 
 		}
 
