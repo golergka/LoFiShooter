@@ -12,6 +12,8 @@ interface IVisionListener {
 
 public class Vision : BasicBehavior {
 
+	public LayerMask mask = -1;
+
 	public List<Visible> VisiblesInSight() {
 
 		List<Visible> result = new List<Visible>();
@@ -193,7 +195,7 @@ public class Vision : BasicBehavior {
 			return false;
 
 		RaycastHit hit;
-		bool lineCast = Physics.Linecast(transform.position, observee.transform.position, out hit);
+		bool lineCast = Physics.Linecast(transform.position, observee.transform.position, out hit, mask);
 
 		if (lineCast && hit.collider.gameObject != observee.gameObject) {
 			Debug.DrawLine(transform.position, hit.point);
