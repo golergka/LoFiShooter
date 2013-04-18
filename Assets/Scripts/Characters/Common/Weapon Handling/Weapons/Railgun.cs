@@ -16,6 +16,8 @@ public class Railgun : WeaponDelegate {
 
 	public float spreadReset = 0.2f;
 
+	public float pushForce = 1f;
+
 	float firstShot = -1000f; // just a big enough value to keep the code simple
 	float lastShot = -1000f;
 
@@ -46,6 +48,8 @@ public class Railgun : WeaponDelegate {
 
 		if ( Physics.Raycast(transform.position, forward, out hit) ) {
 
+			// Deliver damage
+
 			IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
 
 			if (targetDamageReceiver != null) {
@@ -54,11 +58,29 @@ public class Railgun : WeaponDelegate {
 
 			}
 
+			// Apply push force
+
+			Rigidbody targetRigidbody = hit.collider.GetComponent<Rigidbody>();
+
+			if (targetRigidbody) {
+
+				Vector3 pushForceVector = forward;
+				pushForceVector.Normalize();
+				pushForceVector *= pushForce;
+
+				targetRigidbody.AddForce(pushForceVector);
+
+			}
+
+			// Render line
+
 			LineRenderer shotLineRenderer = (LineRenderer) Instantiate(trail, Vector3.zero, Quaternion.identity);
 
 			shotLineRenderer.SetVertexCount(2);
 			shotLineRenderer.SetPosition(0, transform.position);
 			shotLineRenderer.SetPosition(1, hit.point);
+
+			// Instantiate effect
 
 			Quaternion hitRotation = new Quaternion();
 			hitRotation.SetLookRotation(hit.normal);
