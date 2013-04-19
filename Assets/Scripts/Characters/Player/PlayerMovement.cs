@@ -21,7 +21,7 @@ public class PlayerMovement : BasicBehavior {
 		// just big enough numbers that not gonna be used anywhere else, no reason to make them constants
 		cursorPlane.transform.position = transform.position;
 		cursorPlane.transform.parent = transform;
-		cursorPlane.layer = 9; // CursorPlane
+		cursorPlane.layer = LAYER_CURSOR_PLANE; // CursorPlane
 		cursorPlane.AddComponent<BoxCollider>();
 
 	}

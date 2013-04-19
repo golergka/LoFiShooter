@@ -94,7 +94,7 @@ public class MovementController : BasicBehavior {
 
 	WeaponDelegate 	weaponDelegate;
 
-	const float recoilMultiplier = 5f;
+	const float recoilMultiplier = 1f;
 
 	void RecoilHandler(WeaponDelegate d, float recoil) {
 
