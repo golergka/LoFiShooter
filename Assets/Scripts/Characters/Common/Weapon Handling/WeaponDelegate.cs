@@ -27,6 +27,10 @@ public abstract class WeaponDelegate : BasicBehavior {
 
 	public ParticleSystem shellEmitter;
 
+	public Light muzzleLight;
+	public float lightIntensity = 10f;
+	public float lightTime = 0.1f;
+
 	override protected void Awake() {
 
 		base.Awake();
@@ -57,6 +61,14 @@ public abstract class WeaponDelegate : BasicBehavior {
 			if (shellEmitter) {
 
 				shellEmitter.Emit(1);
+
+			}
+
+			if (muzzleLight) {
+
+				Debug.Log("light");
+
+				muzzleLight.intensity = lightIntensity;
 
 			}
 
@@ -95,6 +107,12 @@ public abstract class WeaponDelegate : BasicBehavior {
 				Debug.LogWarning("Muzzle flash shader doesn't have color property I can use!");
 
 			}
+
+		}
+
+		if (muzzleLight) {
+
+			muzzleLight.intensity = lightIntensity * (1 - Mathf.Max( (Time.time - lastFireTime)/lightTime, 0 ) );
 
 		}
 
