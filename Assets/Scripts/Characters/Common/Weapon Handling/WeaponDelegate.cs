@@ -25,13 +25,11 @@ public abstract class WeaponDelegate : BasicBehavior {
 	// Can be ommited for weapons that AI use.
 	public Texture guiIcon;
 
-	ParticleSystem shellEmitter;
+	public ParticleSystem shellEmitter;
 
 	override protected void Awake() {
 
 		base.Awake();
-
-		shellEmitter = GetComponentInChildren<ParticleSystem>();
 
 	}
 
