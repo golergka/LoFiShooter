@@ -9,6 +9,8 @@ public class CameraController : BasicBehavior {
 	public float snapTimeout;
 	public float mouseLookAheadRatio = 0.4f;
 	public float mouseLookAheadMax = 4f;
+
+	public float recoilMultiplier = 1f;
 	
 	Vector3 cameraOffset;
 	
@@ -54,6 +56,8 @@ public class CameraController : BasicBehavior {
 		recoilOffset.x = Random.Range(-recoil, recoil);
 		recoilOffset.y = Random.Range(-recoil, recoil);
 		recoilOffset.z = Random.Range(-recoil, recoil);
+
+		recoilOffset *= recoilMultiplier;
 
 		transform.position += recoilOffset;
 
