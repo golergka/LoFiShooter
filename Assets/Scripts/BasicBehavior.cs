@@ -22,6 +22,16 @@ public abstract class BasicBehavior : MonoBehaviour {
 
 		behaviors.Add(this);
 
+		if (!singletons.ContainsKey(this.GetType())) {
+			singletons.Add(this.GetType(), new SingletonHolder(this));
+		} else {
+
+			SingletonHolder holder = singletons[this.GetType()];
+			holder.allowed = false;
+			singletons[this.GetType()] = holder;
+
+		}
+
 		// All fields with [SeupableField] attribute should be set up by designer.
 		// We're checking that.
 		foreach(var s in GetAllFieldsWithAttribute(typeof(SetupableField))) {
@@ -80,6 +90,40 @@ public abstract class BasicBehavior : MonoBehaviour {
 			}
 
 		}
+
+	}
+
+	static Dictionary<System.Type,SingletonHolder> singletons = new Dictionary<System.Type,SingletonHolder>();
+
+	struct SingletonHolder {
+		public object instance;
+		public bool allowed;
+
+		public SingletonHolder(object instance) {
+			this.instance = instance;
+			allowed = true;
+		}
+
+	}
+
+	public static T Singleton<T>() where T : UnityEngine.Component {
+
+		if (singletons.ContainsKey(typeof(T))) {
+
+			if (singletons[typeof(T)].allowed) {
+				return (T) singletons[typeof(T)].instance;
+			} else {
+				Debug.LogError("Type " + typeof(T).Name + " has more than one occasion, can't access it as a singleton!");
+				return default(T);
+			}
+
+		} else {
+
+			GameObject singletonGameObject = new GameObject(typeof(T).Name + " singleton");
+			T singleton = singletonGameObject.AddComponent<T>();
+			return singleton;
+
+		}		
 
 	}
 
