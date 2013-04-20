@@ -11,9 +11,6 @@ public class Laser : WeaponDelegate {
 	public LineRenderer trail;
 
 	[SetupableField]
-	public ParticleSystem hitEffect;
-
-	[SetupableField]
 	public Color startColor;
 
 	[SetupableField]
@@ -71,30 +68,17 @@ public class Laser : WeaponDelegate {
 			rayColor = newColor;
 			rayWidth = newWidth;
 
-			// Instantiating hit effect
+			// Hitting it
 
-			Quaternion hitRotation = new Quaternion();
-			hitRotation.SetLookRotation(hit.normal);
-
-			Instantiate(hitEffect, hit.point, hitRotation);
+			Hit(hit.collider.gameObject, hit.point, (rayFinish - rayDirection), hit.normal, damage);
 
 			// Reflecting
 
 			rayPosition = hit.point;
 			rayDirection = Vector3.Reflect(rayDirection, hit.normal);
 
-			// If we hit something, inflicting damage
-
-			IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
-
-			if (targetDamageReceiver != null) {
-
-				targetDamageReceiver.InflictDamage(damage);
-
-			}
-
 			// ATTENTION!
-			// This line above, before the loop.
+			// This is the same line as the line above, before the loop.
 			rayFinish = rayPosition + rayDirection * rangeLeft;
 
 		}

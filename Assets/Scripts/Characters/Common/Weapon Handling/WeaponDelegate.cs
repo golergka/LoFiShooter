@@ -4,19 +4,16 @@ using System.Collections;
 
 public abstract class WeaponDelegate : BasicBehavior {
 
+	// === Gun properties ===
+
 	public float firePeriod = 1f;
 	public float recoil = 1f;
 
 	public SoundEvent shootSound;
 
-	float lastFireTime = -1f;
+	public float pushForce;
 
-	protected abstract void Shoot();
-
-	public event Action<WeaponDelegate, float> OnRecoil;
-
-	public Renderer flare;
-	public float flareTime = 0.1f;
+	// === GUI ===
 
 	// Name to be used in GUI. Can be changed to localizable type later.
 	// Can be ommited for weapons that AI use.
@@ -25,17 +22,24 @@ public abstract class WeaponDelegate : BasicBehavior {
 	// Can be ommited for weapons that AI use.
 	public Texture guiIcon;
 
+	// === Effects ===
+
 	public ParticleSystem shellEmitter;
 
+	// muzzle flare
+	public Renderer flare;
+	public float flareTime = 0.1f;
+
+	// muzze light
 	public Light muzzleLight;
-	public float lightIntensity = 10f;
+	public float lightIntensity = 0.5f;
 	public float lightTime = 0.1f;
 
-	override protected void Awake() {
+	protected abstract void Shoot();
 
-		base.Awake();
+	public event Action<WeaponDelegate, float> OnRecoil;
 
-	}
+	float lastFireTime = -1f;
 
 	public void Fire() {
 
@@ -65,8 +69,6 @@ public abstract class WeaponDelegate : BasicBehavior {
 			}
 
 			if (muzzleLight) {
-
-				Debug.Log("light");
 
 				muzzleLight.intensity = lightIntensity;
 
@@ -113,6 +115,42 @@ public abstract class WeaponDelegate : BasicBehavior {
 		if (muzzleLight) {
 
 			muzzleLight.intensity = lightIntensity * (1 - Mathf.Max( (Time.time - lastFireTime)/lightTime, 0 ) );
+
+		}
+
+	}
+
+	public ParticleSystem hitEffect;
+
+	protected void Hit(GameObject target, Vector3 point, Vector3 direction, Vector3 normal, int damage) {
+
+		// Instantiating hit effect
+
+		if (hitEffect) {
+			Quaternion hitRotation = Quaternion.identity;
+			hitRotation.SetLookRotation(normal);
+			Instantiate(hitEffect, point, hitRotation);
+		}
+
+		// Inflicting damage
+
+		IDamageReceiver targetDamageReceiver = (IDamageReceiver) target.GetComponent(typeof(IDamageReceiver));
+
+		if (targetDamageReceiver != null) {
+			targetDamageReceiver.InflictDamage(damage);
+		}
+
+		// Pushing target away
+
+		Rigidbody targetRigidbody = target.GetComponent<Rigidbody>();
+
+		if (targetRigidbody && pushForce > 0f) {
+
+			Vector3 pushForceVector = direction;
+			pushForceVector.Normalize();
+			pushForceVector *= pushForce;
+
+			targetRigidbody.AddForce(pushForceVector);
 
 		}
 

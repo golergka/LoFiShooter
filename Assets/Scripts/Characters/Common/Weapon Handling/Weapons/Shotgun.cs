@@ -15,9 +15,6 @@ public class Shotgun : WeaponDelegate {
 	[SetupableField]
 	public LineRenderer trail;
 
-	[SetupableField]
-	public ParticleSystem hitEffect;
-
 	public override void OnGameReset() { }
 
 	protected override void Shoot () {
@@ -44,20 +41,9 @@ public class Shotgun : WeaponDelegate {
 
 			if ( Physics.Linecast( transform.position, pelletLineFinish, out hit) ) {
 
-				IDamageReceiver targetDamageReceiver = (IDamageReceiver) hit.collider.GetComponent(typeof(IDamageReceiver));
-
-				if (targetDamageReceiver != null) {
-
-					targetDamageReceiver.InflictDamage(pelletDamage);
-
-				}
+				Hit(hit.collider.gameObject, hit.point, forward, hit.normal, pelletDamage);
 
 				pelletLineFinish = hit.point;
-
-				Quaternion hitRotation = new Quaternion();
-				hitRotation.SetLookRotation(hit.normal);
-
-				Instantiate(hitEffect, hit.point, hitRotation);
 
 			}
 
