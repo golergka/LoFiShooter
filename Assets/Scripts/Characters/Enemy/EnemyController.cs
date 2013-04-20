@@ -84,6 +84,8 @@ public class EnemyController : BasicBehavior, IVisionListener {
 				aiLight.color = engageColor;
 			}
 
+			Singleton<ConsoleController>().WriteLine(name + " engaging target");
+
 		}
 
 	}
@@ -108,6 +110,8 @@ public class EnemyController : BasicBehavior, IVisionListener {
 			if (aiLight) {
 				aiLight.color = idleColor;
 			}
+
+			Singleton<ConsoleController>().WriteLine(name + " lost target");
 
 		}
 

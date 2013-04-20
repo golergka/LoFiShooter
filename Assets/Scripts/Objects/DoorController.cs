@@ -54,6 +54,8 @@ public class DoorController : BasicBehavior {
 		if (hider)
 			hider.gameObject.SetActive(false);
 
+		Singleton<ConsoleController>().WriteLine(name + " open");
+
 		state = DoorControllerState.Open;
 		iTween.MoveTo(door.gameObject, openPosition, animationSpeed);
 
@@ -63,6 +65,8 @@ public class DoorController : BasicBehavior {
 
 		if (state == DoorControllerState.Destroyed)
 			return;
+
+		Singleton<ConsoleController>().WriteLine(name + " close");
 
 		state = DoorControllerState.Closed;
 		iTween.MoveTo(door.gameObject, closePosition, animationSpeed);

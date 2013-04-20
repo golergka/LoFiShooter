@@ -13,6 +13,12 @@ public class Dissapearing : BasicBehavior {
 		startTime = Time.time;
 
 	}
+
+	void AdjustColor(ref Color sourceColor) {
+
+		sourceColor.a = 1f - ( (Time.time - startTime) / timeToDissapear );
+
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,9 +29,19 @@ public class Dissapearing : BasicBehavior {
 
 		} else {
 
-			Color materialColor = renderer.material.GetColor(materialColorProperty);
-			materialColor.a = 1f - ( (Time.time - startTime) / timeToDissapear );
-			renderer.material.SetColor(materialColorProperty, materialColor);
+			if (renderer) {
+
+				Color materialColor = renderer.material.GetColor(materialColorProperty);
+				AdjustColor(ref materialColor);
+				renderer.material.SetColor(materialColorProperty, materialColor);
+
+			} else if (guiText) {
+
+				Color textColor = guiText.material.color;
+				AdjustColor(ref textColor);
+				guiText.material.color = textColor;
+
+			}
 
 		}
 	
@@ -33,7 +49,11 @@ public class Dissapearing : BasicBehavior {
 
 	void OnDestroy() {
 
-		DestroyImmediate(renderer.material);
+		if (renderer) {
+			DestroyImmediate(renderer.material);
+		} else if (guiText) {
+			DestroyImmediate(guiText.material);
+		}
 
 	}
 }
