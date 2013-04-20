@@ -66,7 +66,6 @@ public class MovementController : BasicBehavior {
 	[ComponentField]
 	new Rigidbody rigidbody;
 
-	const float MAX_ACCELERATION = 60f;
 	Vector3 targetVelocity;
 
 	void FixedUpdate() {
@@ -94,7 +93,7 @@ public class MovementController : BasicBehavior {
 
 	WeaponDelegate 	weaponDelegate;
 
-	const float recoilMultiplier = 1f;
+	public float recoilMultiplier = 1f;
 
 	void RecoilHandler(WeaponDelegate d, float recoil) {
 
