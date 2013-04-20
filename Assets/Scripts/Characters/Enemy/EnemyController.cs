@@ -12,6 +12,11 @@ public class EnemyController : BasicBehavior, IVisionListener {
 	[ComponentField]
 	WeaponDelegator weaponDelegator;
 
+	public Light aiLight;
+
+	public Color idleColor;
+	public Color engageColor;
+
 	const string TAG_PLAYER = "Player"; // TODO: Create separate static class with all game-level constants
 
 	enum EnemyState {
@@ -25,6 +30,9 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 		state = EnemyState.Idle;
 		target = null;
+		if (aiLight) {
+			aiLight.color = idleColor;
+		}
 
 	}
 
@@ -60,6 +68,7 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 		if ( weaponDelegator && (target.position - transform.position).magnitude < attackRange ) {
 
+			Debug.DrawLine(transform.position, target.position);
 			weaponDelegator.Fire();
 		}
 
@@ -71,6 +80,9 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 			target = observee.transform;
 			state = EnemyState.Engage;
+			if (aiLight) {
+				aiLight.color = engageColor;
+			}
 
 		}
 
@@ -93,6 +105,9 @@ public class EnemyController : BasicBehavior, IVisionListener {
 
 			target = null;
 			state = EnemyState.Idle;
+			if (aiLight) {
+				aiLight.color = idleColor;
+			}
 
 		}
 
